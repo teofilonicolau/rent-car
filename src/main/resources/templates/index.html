@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" data-bs-theme="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/./images/css/style.css" rel="stylesheet">
+    <link rel="icon" href="/./images/locadoraFavicon.png" type="image/x-icon">
+</head>
+<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<main class="w-100 m-auto form-container">
+
+    <img th:src="@{/images/car.jpg}" class="mb-4" height="150" width="250"/>
+    <h1 class="h3 mb-3 fw-normal custom-h1">Locadora de Veículos</h1>
+
+    <!-- Botão para abrir o modal de criar veículo -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#criarVeiculoModal">
+        Criar Veículo
+    </button>
+
+    <!-- Botão para abrir o modal de buscar todos os veículos -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buscarTodosVeiculosModal">
+        Buscar Todos
+    </button>
+
+    <!-- Botão para abrir o modal de buscar veículo por ID -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buscarPorIdVeiculoModal">
+        Buscar Por ID
+    </button>
+
+    <!-- Botão para abrir o modal de alterar veículo -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alterarVeiculoModal">
+        Alterar Veículo
+    </button>
+
+    <!-- Botão para abrir o modal de buscar veículo por placa -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buscarPorPlacaVeiculoModal">
+        Buscar Por Placa
+    </button>
+
+    <!-- Botão para abrir o modal de excluir veículo por ID -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#excluirVeiculoPorIdModal">
+        Excluir Veículo Por ID
+    </button>
+
+    <!-- Modal para criar veículo -->
+    <div class="modal fade" id="criarVeiculoModal" tabindex="-1" aria-labelledby="criarVeiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="criarVeiculoModalLabel">Criar Veículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="placa">Placa:</label>
+                    <input type="text" id="placa" class="form-control" required>
+                    <label for="marca">Marca:</label>
+                    <input type="text" id="marca" class="form-control" required>
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" id="modelo" class="form-control" required>
+                    <label for="tipo">Tipo:</label>
+                    <input type="text" id="tipo" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="criarVeiculo()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para buscar todos os veículos -->
+    <div class="modal fade" id="buscarTodosVeiculosModal" tabindex="-1" aria-labelledby="buscarTodosVeiculosModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buscarTodosVeiculosModalLabel">Buscar Todos os Veículos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table" id="tabelaVeiculos">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Placa</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Disponível</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- As linhas da tabela serão adicionadas dinamicamente via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para buscar veículo por ID -->
+    <div class="modal fade" id="buscarPorIdVeiculoModal" tabindex="-1" aria-labelledby="buscarPorIdVeiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buscarPorIdVeiculoModalLabel">Buscar Veículo Por ID</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="idVeiculo">ID do Veículo:</label>
+                    <input type="text" id="idVeiculo" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="buscarVeiculoPorId()">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para alterar veículo -->
+    <div class="modal fade" id="alterarVeiculoModal" tabindex="-1" aria-labelledby="alterarVeiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alterarVeiculoModalLabel">Alterar Veículo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="idVeiculoAlterar">ID do Veículo:</label>
+                    <input type="text" id="idVeiculoAlterar" class="form-control" disabled>
+                    <label for="placaAlterar">Nova Placa:</label>
+                    <input type="text" id="placaAlterar" class="form-control" required>
+                    <label for="marcaAlterar">Nova Marca:</label>
+                    <input type="text" id="marcaAlterar" class="form-control" required>
+                    <label for="modeloAlterar">Novo Modelo:</label>
+                    <input type="text" id="modeloAlterar" class="form-control" required>
+                    <label for="tipoAlterar">Novo Tipo:</label>
+                    <input type="text" id="tipoAlterar" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="alterarVeiculo()">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para buscar veículo por placa -->
+    <div class="modal fade" id="buscarPorPlacaVeiculoModal" tabindex="-1" aria-labelledby="buscarPorPlacaVeiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buscarPorPlacaVeiculoModalLabel">Buscar Veículo Por Placa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="placaBuscar">Placa do Veículo:</label>
+                    <input type="text" id="placaBuscar" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="buscarVeiculoPorPlaca()">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para excluir veículo por ID -->
+    <div class="modal fade" id="excluirVeiculoPorIdModal" tabindex="-1" aria-labelledby="excluirVeiculoPorIdModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="excluirVeiculoPorIdModalLabel">Excluir Veículo Por ID</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="idVeiculoExcluir">ID do Veículo a Ser Excluído:</label>
+                    <input type="text" id="idVeiculoExcluir" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger" onclick="excluirVeiculoPorId()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+
+    // Função genérica para criar uma linha da tabela
+    function criarLinhaTabela(veiculo) {
+        const linha = document.createElement('tr');
+        linha.innerHTML = `
+            <td>${veiculo.id}</td>
+            <td>${veiculo.placa}</td>
+            <td>${veiculo.marca}</td>
+            <td>${veiculo.modelo}</td>
+            <td>${veiculo.tipo}</td>
+            <td>${veiculo.disponivel ? 'Sim' : 'Não'}</td>
+        `;
+        return linha;
+    }
+
+    // Função genérica para preencher uma tabela com dados
+    function preencherTabela(veiculos) {
+        const tabela = document.getElementById('tabelaVeiculos');
+        tabela.innerHTML = '';
+
+        veiculos.forEach(veiculo => {
+            const linha = criarLinhaTabela(veiculo);
+            tabela.appendChild(linha);
+        });
+    }
+
+    function criarVeiculo() {
+        const placa = document.getElementById('placa').value;
+        const marca = document.getElementById('marca').value;
+        const modelo = document.getElementById('modelo').value;
+        const tipo = document.getElementById('tipo').value;
+
+        const veiculo = {
+            placa: placa,
+            marca: marca,
+            modelo: modelo,
+            tipo: tipo,
+            disponivel: true
+        };
+
+        enviarRequisicao('/veiculo/criar', 'POST', veiculo, 'Criar veículo');
+    }
+
+    function buscarTodosVeiculos() {
+        enviarRequisicao('/veiculo/todos', 'GET', null, 'Buscar todos os veículos');
+    }
+
+    function buscarVeiculoPorId() {
+        const idVeiculo = document.getElementById('idVeiculo').value;
+        enviarRequisicao(`/veiculo/por-id/${idVeiculo}`, 'GET', null, `Buscar veículo por ID: ${idVeiculo}`);
+    }
+
+    function alterarVeiculo() {
+        const idVeiculo = document.getElementById('idVeiculoAlterar').value;
+        const placa = document.getElementById('placaAlterar').value;
+        const marca = document.getElementById('marcaAlterar').value;
+        const modelo = document.getElementById('modeloAlterar').value;
+        const tipo = document.getElementById('tipoAlterar').value;
+
+        const veiculo = {
+            id: idVeiculo,
+            placa: placa,
+            marca: marca,
+            modelo: modelo,
+            tipo: tipo
+        };
+
+        enviarRequisicao('/veiculo/alterar', 'PUT', veiculo, 'Alterar veículo');
+    }
+
+    function buscarVeiculoPorPlaca() {
+        const placa = document.getElementById('placaBuscar').value;
+        enviarRequisicao(`/veiculo/por-placa/${placa}`, 'GET', null, `Buscar veículo por placa: ${placa}`);
+    }
+
+    function excluirVeiculoPorId() {
+        const idVeiculo = document.getElementById('idVeiculoExcluir').value;
+        enviarRequisicao(`/veiculo/remover-por-id/${idVeiculo}`, 'DELETE', null, `Excluir veículo por ID: ${idVeiculo}`);
+    }
+
+    // Função genérica para enviar requisições AJAX
+    function enviarRequisicao(url, method, data, mensagem) {
+    axios({
+        method: method,
+        url: url,
+        data: data
+    })
+    .then(response => {
+        alert(`${mensagem} - ${response.data}`);
+        $('#criarVeiculoModal, #buscarTodosVeiculosModal, #buscarPorIdVeiculoModal, #alterarVeiculoModal, #buscarPorPlacaVeiculoModal, #excluirVeiculoPorIdModal').modal('hide');
+    })
+    .catch(error => console.error('Erro:', error));
+}
+
+</script>
+
+</body>
+</html>

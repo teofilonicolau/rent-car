@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,200;1,500&display=swap');
+
+html, body {
+  /** height: 100%;*/
+    font-size:20px;
+    font-family: 'Poppins', 'Times New Roman', Times, serif;
+}
+
+.form-container {
+  /** max-width: 300px;*/
+    padding: 2rem;
+}
+
+.custom-h1 {
+    font-weight: bold;
+    color: #003399;
+}
+
+
+.modal-content {
+    background-color: #fff;
+}
